@@ -30,7 +30,7 @@ CalculatorApp
 └── CalculatorService.cs     # Menangani seluruh logika perhitungan
 ```
 
-Struktur ini sengaja memisahkan antara **logika perhitungan** (`CalculatorService.cs`) dan **tampilan/interaksi pengguna** (`Form1.cs`), sesuai prinsip *separation of concerns* — supaya kode lebih rapi, mudah diuji, dan mudah dikembangkan tanpa saling mengganggu antara logika dan tampilan.
+Struktur ini sengaja memisahkan antara logika perhitungan (`CalculatorService.cs`) dan tampilan/interaksi pengguna (`Form1.cs`), sesuai prinsip *separation of concerns* — supaya kode lebih rapi, mudah diuji, dan mudah dikembangkan tanpa saling mengganggu antara logika dan tampilan.
 
 ---
 
@@ -57,7 +57,7 @@ public class CalculatorService
 }
 ```
 
-Class ini berisi seluruh method perhitungan (aritmatika dasar maupun scientific) dan daftar riwayat. Form1 tidak perlu tahu *bagaimana* perhitungan dilakukan — cukup memanggil method yang sesuai, misalnya `kalkulator.Hitung(firstNumber, secondNumber, operation)`.
+Class ini berisi seluruh method perhitungan (aritmatika dasar maupun scientific) dan daftar riwayat. Form1 tidak perlu tahu bagaimana perhitungan dilakukan, cukup memanggil method yang sesuai, misalnya `kalkulator.Hitung(firstNumber, secondNumber, operation)`.
 
 ### 2. Variabel Utama di `Form1.cs`
 
@@ -74,7 +74,7 @@ string fullExpression = "";
 - `firstNumber`, `secondNumber`, `result`: menyimpan nilai-nilai yang dipakai dalam perhitungan.
 - `operation`: menyimpan operator yang dipilih (`+`, `−`, `×`, `÷`).
 - `currentInput`: menyimpan angka yang sedang diketik pengguna saat ini.
-- `fullExpression`: menyimpan bagian ekspresi yang sudah "terkunci" (misalnya `"20 + "`), sehingga layar bisa menampilkan seluruh proses perhitungan, bukan cuma angka terakhir.
+- `fullExpression`: menyimpan bagian ekspresi yang sudah "terkunci" (misalnya `"20 + "`), sehingga layar bisa menampilkan seluruh proses perhitungan.
 
 ### 3. Satu Event Handler untuk Semua Tombol Angka
 
@@ -92,7 +92,7 @@ private void NumberButton_Click(object sender, EventArgs e)
 }
 ```
 
-Semua tombol angka (0-9) memanggil method yang sama ini. Dengan mengambil `sender` dan meng-cast-nya menjadi `Button`, program bisa tahu **tombol mana** yang sedang diklik lewat `button.Text`, sehingga tidak perlu menulis 10 method terpisah untuk 10 tombol angka.
+Semua tombol angka (0-9) memanggil method yang sama ini. Dengan mengambil `sender` dan meng-cast-nya menjadi `Button`, program bisa tahu tombol mana yang sedang diklik lewat `button.Text`, sehingga tidak perlu menulis 10 method terpisah untuk 10 tombol angka.
 
 ### 4. Perhitungan Saat Tombol `=` Ditekan
 
@@ -158,7 +158,7 @@ private void HitungUnary(Func<double, double> operasi, string namaFungsi)
 }
 ```
 
-Keenam tombol scientific (`√`, `x²`, `sin`, `cos`, `tan`, `log`) menggunakan satu method bantu `HitungUnary`, yang menerima *delegate* `Func<double, double>` sebagai parameter. Dengan cara ini, kode tidak perlu ditulis berulang untuk setiap fungsi matematika — cukup dikirim method yang berbeda-beda (misalnya `kalkulator.Sin`, `kalkulator.Log`, dst).
+Keenam tombol scientific (`√`, `x²`, `sin`, `cos`, `tan`, `log`) menggunakan satu method bantu `HitungUnary`, yang menerima *delegate* `Func<double, double>` sebagai parameter. Dengan cara ini, kode tidak perlu ditulis berulang untuk setiap fungsi matematika, cukup dikirim method yang berbeda-beda (misalnya `kalkulator.Sin`, `kalkulator.Log`, dst).
 
 ### 7. Menampilkan Riwayat
 
@@ -205,11 +205,11 @@ Setiap kali ada perhitungan baru, riwayatnya disimpan ke `List<string>` di `Calc
 
 ### Apa fungsi object `sender` pada event handler?
 
-`sender` adalah parameter yang secara otomatis dikirim oleh .NET setiap kali sebuah event (misalnya klik tombol) terjadi. Parameter ini berisi referensi ke **objek/kontrol yang memicu event tersebut** — dalam kasus ini, tombol mana yang sedang diklik. Dengan meng-cast `sender` menjadi `Button` (`Button button = (Button)sender;`), kode dapat mengetahui properti tombol tersebut, seperti `button.Text`, tanpa harus menuliskan logika terpisah untuk setiap tombol.
+`sender` adalah parameter yang secara otomatis dikirim oleh .NET setiap kali sebuah event (misalnya klik tombol) terjadi. Parameter ini berisi referensi ke objek/kontrol yang memicu event tersebut dalam kasus ini tombol mana yang sedang diklik. Dengan meng-cast `sender` menjadi `Button` (`Button button = (Button)sender;`), kode dapat mengetahui properti tombol tersebut, seperti `button.Text`, tanpa harus menuliskan logika terpisah untuk setiap tombol.
 
 ### Mengapa semua tombol angka dapat memakai satu `NumberButton_Click`?
 
-Karena logika yang dijalankan untuk semua tombol angka pada dasarnya **sama persis** — hanya berbeda pada angka yang ditambahkan ke tampilan. Dengan memanfaatkan parameter `sender` untuk mengetahui tombol mana yang diklik (lewat `button.Text`), satu method saja sudah cukup untuk menangani tombol 0 sampai 9. Ini membuat kode jauh lebih ringkas dibandingkan menulis 10 method terpisah dengan isi yang hampir identik.
+Karena logika yang dijalankan untuk semua tombol angka pada dasarnya sama persis hanya berbeda pada angka yang ditambahkan ke tampilan. Dengan memanfaatkan parameter `sender` untuk mengetahui tombol mana yang diklik (lewat `button.Text`), satu method saja sudah cukup untuk menangani tombol 0 sampai 9. Ini membuat kode jauh lebih ringkas dibandingkan menulis 10 method terpisah dengan isi yang hampir identik.
 
 ### Apa perbedaan `firstNumber`, `secondNumber`, dan `result`?
 
@@ -217,18 +217,18 @@ Karena logika yang dijalankan untuk semua tombol angka pada dasarnya **sama pers
 - **`secondNumber`**: menyimpan angka kedua yang diinput pengguna, yaitu setelah operator dipilih dan sebelum tombol `=` ditekan.
 - **`result`**: menyimpan hasil akhir dari operasi antara `firstNumber` dan `secondNumber` setelah dihitung menggunakan operator yang dipilih.
 
-Ketiganya diperlukan secara terpisah karena kalkulator perlu "mengingat" nilai-nilai ini di antara beberapa kali klik tombol yang berbeda, sebelum akhirnya digabung menjadi satu hasil perhitungan.
+Ketiganya diperlukan secara terpisah karena kalkulator perlu mengingat nilai-nilai ini di antara beberapa kali klik tombol yang berbeda, sebelum akhirnya digabung menjadi satu hasil perhitungan.
 
 ### Mengapa pembagian dengan nol perlu divalidasi?
 
-Secara matematis, hasil pembagian dengan nol tidak terdefinisi. Dalam pemrograman, jika operasi ini dilakukan tanpa validasi, program bisa menghasilkan nilai `Infinity`, `NaN` (Not a Number), atau melempar exception yang tidak tertangani dan menyebabkan aplikasi **crash**. Dengan memvalidasi terlebih dahulu (`if (secondNumber == 0) throw new DivideByZeroException(...)`), program dapat menampilkan pesan error yang jelas dan tetap berjalan dengan normal, alih-alih berhenti mendadak.
+Secara matematis, hasil pembagian dengan nol tidak terdefinisi. Dalam pemrograman, jika operasi ini dilakukan tanpa validasi, program bisa menghasilkan nilai `Infinity`, `NaN` (Not a Number), atau melempar exception yang tidak tertangani dan menyebabkan aplikasi crash. Dengan memvalidasi terlebih dahulu (`if (secondNumber == 0) throw new DivideByZeroException(...)`), program dapat menampilkan pesan error yang jelas dan tetap berjalan dengan normal.
 
 ### Bagaimana `try-catch` membantu menjaga aplikasi tetap stabil?
 
-Blok `try-catch` memungkinkan program untuk **menangkap error yang terjadi saat runtime** (misalnya pembagian dengan nol, atau input yang gagal di-parse menjadi angka) tanpa menghentikan keseluruhan aplikasi. Kode di dalam blok `try` dijalankan seperti biasa; jika terjadi exception, eksekusi langsung berpindah ke blok `catch` yang menangani error tersebut (dalam kasus ini, menampilkan `MessageBox` berisi pesan error). Dengan begitu, aplikasi tetap responsif dan bisa terus digunakan meskipun terjadi kesalahan input, alih-alih tiba-tiba tertutup paksa.
+Blok `try-catch` memungkinkan program untuk menangkap error yang terjadi saat runtime (misalnya pembagian dengan nol, atau input yang gagal di-parse menjadi angka) tanpa menghentikan keseluruhan aplikasi. Kode di dalam blok `try` dijalankan seperti biasa. Jjika terjadi exception, eksekusi langsung berpindah ke blok `catch` yang menangani error tersebut (dalam kasus ini, menampilkan `MessageBox` berisi pesan error). Dengan begitu, aplikasi tetap responsif dan bisa terus digunakan meskipun terjadi kesalahan input.
 
 ---
 
 ## Kesimpulan
 
-Melalui lab ini, dapat dipahami bagaimana membangun aplikasi desktop berbasis GUI dengan C# Windows Forms, mulai dari mendesain tampilan menggunakan Visual Designer, menangani event dari berbagai kontrol dengan konsep `sender` dan event handler, menerapkan validasi input serta penanganan error dengan `try-catch`, hingga menerapkan prinsip pemisahan tanggung jawab (*separation of concerns*) dengan memisahkan logika perhitungan ke dalam class tersendiri (`CalculatorService`). Pengembangan fitur tambahan seperti ±, %, backspace, riwayat, dan fungsi scientific juga memberikan pemahaman lebih dalam mengenai bagaimana satu event handler dapat digunakan kembali (*reusable*) untuk berbagai kontrol yang memiliki logika serupa.
+Melalui latihan ini, dapat dipahami bagaimana membangun aplikasi desktop berbasis GUI dengan C# Windows Forms, mulai dari mendesain tampilan menggunakan Visual Designer, menangani event dari berbagai kontrol dengan konsep `sender` dan event handler, menerapkan validasi input serta penanganan error dengan `try-catch`, hingga menerapkan prinsip pemisahan tanggung jawab (*separation of concerns*) dengan memisahkan logika perhitungan ke dalam class tersendiri (`CalculatorService`). Pengembangan fitur tambahan seperti ±, %, backspace, riwayat, dan fungsi scientific juga memberikan pemahaman lebih dalam mengenai bagaimana satu event handler dapat digunakan kembali (*reusable*) untuk berbagai kontrol yang memiliki logika serupa.
