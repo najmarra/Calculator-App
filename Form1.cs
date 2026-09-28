@@ -6,7 +6,6 @@ namespace CalculatorApp
 {
     public partial class Form1 : Form
     {
-        // Logika perhitungan dipisah ke class CalculatorService
         private readonly CalculatorService kalkulator = new CalculatorService();
 
         double firstNumber = 0;
@@ -14,8 +13,6 @@ namespace CalculatorApp
         double result = 0;
         string operation = "";
 
-        // currentInput = angka yang sedang diketik
-        // fullExpression = teks ekspresi yang sudah "terkunci", misal "20 + "
         string currentInput = "0";
         string fullExpression = "";
 
@@ -24,9 +21,6 @@ namespace CalculatorApp
             InitializeComponent();
         }
 
-        // ==========================================
-        // TOMBOL ANGKA (0-9)
-        // ==========================================
         private void NumberButton_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -50,9 +44,6 @@ namespace CalculatorApp
         private void btn3_Click(object sender, EventArgs e) => NumberButton_Click(sender, e);
         private void btn0_Click(object sender, EventArgs e) => NumberButton_Click(sender, e);
 
-        // ==========================================
-        // TOMBOL OPERATOR (+, −, ×, ÷)
-        // ==========================================
         private void OperatorButton_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -70,9 +61,6 @@ namespace CalculatorApp
         private void btnMinus_Click(object sender, EventArgs e) => OperatorButton_Click(sender, e);
         private void btnPlus_Click(object sender, EventArgs e) => OperatorButton_Click(sender, e);
 
-        // ==========================================
-        // TOMBOL SAMA DENGAN (=)
-        // ==========================================
         private void btnEquals_Click(object sender, EventArgs e)
         {
             try
@@ -97,9 +85,6 @@ namespace CalculatorApp
             }
         }
 
-        // ==========================================
-        // TOMBOL CLEAR (C)
-        // ==========================================
         private void btnClear_Click(object sender, EventArgs e)
         {
             firstNumber = 0;
@@ -111,9 +96,6 @@ namespace CalculatorApp
             txtDisplay.Text = "0";
         }
 
-        // ==========================================
-        // TOMBOL DESIMAL (.)
-        // ==========================================
         private void btnDecimal_Click(object sender, EventArgs e)
         {
             if (!currentInput.Contains(","))
@@ -123,9 +105,6 @@ namespace CalculatorApp
             }
         }
 
-        // ==========================================
-        // TOMBOL ± (PLUS MINUS)
-        // ==========================================
         private void btnPlusMinus_Click(object sender, EventArgs e)
         {
             if (double.TryParse(currentInput.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double angka))
@@ -135,9 +114,6 @@ namespace CalculatorApp
             }
         }
 
-        // ==========================================
-        // TOMBOL % (PERSEN)
-        // ==========================================
         private void btnPercent_Click(object sender, EventArgs e)
         {
             if (double.TryParse(currentInput.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out double angka))
@@ -147,9 +123,6 @@ namespace CalculatorApp
             }
         }
 
-        // ==========================================
-        // TOMBOL BACKSPACE (HAPUS SATU KARAKTER TERAKHIR)
-        // ==========================================
         private void btnBackspace_Click(object sender, EventArgs e)
         {
             if (currentInput.Length > 1)
@@ -160,9 +133,6 @@ namespace CalculatorApp
             txtDisplay.Text = fullExpression + currentInput;
         }
 
-        // ==========================================
-        // TOMBOL SCIENTIFIC: √, x², sin, cos, tan, log
-        // ==========================================
         private void btnSqrt_Click(object sender, EventArgs e) => HitungUnary(kalkulator.AkarKuadrat, "√");
         private void btnSquare_Click(object sender, EventArgs e) => HitungUnary(kalkulator.Kuadrat, "sqr");
         private void btnSin_Click(object sender, EventArgs e) => HitungUnary(kalkulator.Sin, "sin");
@@ -170,7 +140,6 @@ namespace CalculatorApp
         private void btnTan_Click(object sender, EventArgs e) => HitungUnary(kalkulator.Tan, "tan");
         private void btnLog_Click(object sender, EventArgs e) => HitungUnary(kalkulator.Log, "log");
 
-        // Method bantu supaya ke-6 tombol scientific di atas tidak duplikasi kode
         private void HitungUnary(Func<double, double> operasi, string namaFungsi)
         {
             try
@@ -193,9 +162,6 @@ namespace CalculatorApp
             }
         }
 
-        // ==========================================
-        // RIWAYAT PERHITUNGAN
-        // ==========================================
         private void RefreshRiwayat()
         {
             lstHistory.Items.Clear();
